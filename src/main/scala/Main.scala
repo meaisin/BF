@@ -75,6 +75,9 @@ class BF(val text: String, val debug: Boolean):
     else
       pc += 1
 
+  private def comment(): Unit =
+    pc += 1
+
   private def runOnce(): Unit =
     text(pc) match
       case '>' => movePointerRight()
@@ -85,6 +88,7 @@ class BF(val text: String, val debug: Boolean):
       case ',' => inputChar()
       case '[' => openBrace()
       case ']' => closeBrace()
+      case _ => comment()
 
   def run(): Unit =
     while pc <= limit do
@@ -92,10 +96,7 @@ class BF(val text: String, val debug: Boolean):
 
 end BF
 
-object BF:
-end BF
-
-@main def hello(filename: String): Unit = 
+@main def hello(filename: String, debug: Boolean): Unit = 
   import scala.io.Source
 
   val program = Source
@@ -104,6 +105,6 @@ end BF
     .toList
     .mkString
 
-  val bf = BF(program, false)
+  val bf = BF(program, debug)
   bf.run()
 
